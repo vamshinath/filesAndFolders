@@ -3,9 +3,19 @@ import os,sys
 import magic
 
 filesType=''
+include9351=''
 
 def checkFile(fl):
+    if filesType=="":
+        if include9351 == "":
+            if '9351' in fl:
+                return False
+
+        return True
     fl=fl.lower()
+    if include9351 == "":
+        if '9351' in fl:
+            return False
     if filesType == "img":
         if ".jpg" in fl or ".jpeg" in fl or ".png" in fl:
             return True
@@ -22,7 +32,7 @@ def getDirSizeAndFiles(path):
     files={}
     for root,drs,fls in os.walk(path):
             for fl in fls:
-                if checkFile(fl) or filesType == "":
+                if checkFile(fl) :
                     try:
                         fullfl=os.path.abspath(os.path.join(root,fl))
                         tmpsz=round(os.stat(fullfl).st_size/(1024),4)
@@ -47,7 +57,7 @@ def scanFiles(path):
         if os.path.isdir(fl):
             dirs[fl]=getDirSizeAndFiles(fl)
         else:
-            if checkFile(fl) or filesType=="":
+            if checkFile(fl) :
                 outfiles[fl]=os.stat(fl).st_size
 
 
@@ -118,6 +128,7 @@ def playMedia(fl):
 def main():
 
     global filesType
+    global include9351
 
     if len(sys.argv) !=2:
         print("pass dir cmdline")
@@ -128,6 +139,7 @@ def main():
 
 
     filesType = input("Enter fileType(img/gif/vid/*):")
+    include9351 = input("include 9351(y/*):")
 
     path="."
     while True:
