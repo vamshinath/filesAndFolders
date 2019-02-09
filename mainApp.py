@@ -1,23 +1,41 @@
 #!/usr/python3
 import os,sys
 import magic
+
+filesType=''
+
+def checkFile(fl):
+    fl=fl.lower()
+    if filesType == "img":
+        if ".jpg" in fl or ".jpeg" in fl or ".png" in fl:
+            return True
+    elif filesType == "gif":
+        if ".gif" in fl:
+            return True
+    elif filesType == "vid":
+        if ".mkv" in fl or ".mp4" in fl or ".avi" in fl or ".flv" in fl or ".mov" in fl or ".m4v" in fl or ".ts" in fl or ".m2ts" in fl: 
+            return True
+    return False
 def getDirSizeAndFiles(path):
 
     sz = 0
     files={}
     for root,drs,fls in os.walk(path):
             for fl in fls:
-                try:
-                    fullfl=os.path.abspath(os.path.join(root,fl))
-                    tmpsz=round(os.stat(fullfl).st_size/(1024),4)
-                    files[fullfl]=tmpsz
-                    sz+=tmpsz
-                except Exception as e:
-                    print(e)
+                if checkFile(fl) or filesType == "":
+                    try:
+                        fullfl=os.path.abspath(os.path.join(root,fl))
+                        tmpsz=round(os.stat(fullfl).st_size/(1024),4)
+                        files[fullfl]=tmpsz
+                        sz+=tmpsz
+                    except Exception as e:
+                        print(e)
     files = sorted(files.items(),key=lambda x:x[1],reverse=True)
     return [sz,files]
 
+
 def scanFiles(path):
+
 
     files={}
     dirs={}
@@ -29,7 +47,9 @@ def scanFiles(path):
         if os.path.isdir(fl):
             dirs[fl]=getDirSizeAndFiles(fl)
         else:
-            outfiles[fl]=os.stat(fl).st_size
+            if checkFile(fl) or filesType=="":
+                outfiles[fl]=os.stat(fl).st_size
+
 
 
     sortedDirs = sorted(dirs.items(),key=lambda x:x[1][0],reverse=True)
@@ -97,12 +117,17 @@ def playMedia(fl):
 
 def main():
 
+    global filesType
+
     if len(sys.argv) !=2:
         print("pass dir cmdline")
         sys.exit(1)
 
 
     os.chdir(sys.argv[1])
+
+
+    filesType = input("Enter fileType(img/gif/vid/*):")
 
     path="."
     while True:
