@@ -59,7 +59,7 @@ def scanFiles(path):
                 break
     ctr=0
     for otfl,otsz in sortedOutFiles:
-        print("\t"+str(index)+" "+otfl+" "+str(otsz))
+        print(str(index)+" "+otfl+" "+str(otsz))
         printDirs[index]=otfl
         index+=1
         ctr+=1
