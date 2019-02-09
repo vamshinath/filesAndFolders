@@ -1,12 +1,17 @@
 #!/usr/python3
 import os,sys
-import math
+
 def getDirSize(path):
+
     sz = 0
+    files={}
     for root,drs,fls in os.walk(path):
             for fl in fls:
                 try:
-                    sz+=round(os.stat(os.path.abspath(os.path.join(root,fl))).st_size/(1024),4)
+                    fullfl=os.path.abspath(os.path.join(root,fl))
+                    tmpsz=round(os.stat(fullfl).st_size/(1024),4)
+                    files[fullfl]=tmpsz
+                    sz+=tmpsz
                 except Exception as e:
                     print(e)
     return sz
