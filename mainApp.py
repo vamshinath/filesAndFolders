@@ -1,7 +1,7 @@
 #!/usr/python3
 import os,sys
 
-def getDirSize(path):
+def getDirSizeAndFiles(path):
 
     sz = 0
     files={}
@@ -14,7 +14,8 @@ def getDirSize(path):
                     sz+=tmpsz
                 except Exception as e:
                     print(e)
-    return sz
+    files = sorted(files.items(),key=lambda x:x[1],reverse=True)
+    return [sz,files]
 
 def scanFiles(scanOption):
 
@@ -33,12 +34,21 @@ def scanFiles(scanOption):
     else:
         for fl in os.listdir("."):
             if os.path.isdir(fl):
-                dirs[fl]=getDirSize(fl)
+                dirs[fl]=getDirSizeAndFiles(fl)
             else:
                 files[fl]=os.stat(fl).st_size
 
-    print(dirs)
+    sortedDirs = sorted(dirs.items(),key=lambda x:x[1][0],reverse=True)
 
+    for dr,sz in sortedDirs:
+        print(dr,sz[0])
+        ctr=0
+        for fl,flsz in sz[1]:
+            print("\t"+fl+" "+str(flsz))
+            ctr+=1
+            if ctr == 10:
+                break
+        
             
 
 
