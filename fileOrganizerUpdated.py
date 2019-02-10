@@ -51,7 +51,7 @@ def scanFiles(keyword):
 
         if ".jpg" in flnm_lower or ".png" in flnm_lower or ".jpeg" in flnm_lower:
             imgFiles.append(fl)
-        elif ".mp4" in flnm_lower or ".avi" in flnm_lower or ".mkv" in flnm_lower or ".mov" in flnm_lower or ".flv" in flnm_lower or ".m4v" in flnm_lower or ".ts" in flnm_lower or ".m2ts" in flnm_lower:
+        elif ".mp4" in flnm_lower or ".avi" in flnm_lower or ".mkv" in flnm_lower or ".mov" in flnm_lower or ".x-matroska" in flnm_lower or ".m4v" in flnm_lower or ".ts" in flnm_lower or ".m2ts" in flnm_lower:
             vidFiles.append(fl)
         elif ".gif" in flnm_lower:
             gifFiles.append(fl)

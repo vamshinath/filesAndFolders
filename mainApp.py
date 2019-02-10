@@ -23,8 +23,9 @@ def checkFile(fl):
         if ".gif" in fl:
             return True
     elif filesType == "vid":
-        if ".mkv" in fl or ".mp4" in fl or ".avi" in fl or ".flv" in fl or ".mov" in fl or ".m4v" in fl or ".ts" in fl or ".m2ts" in fl: 
+        if ".mkv" in fl or ".mp4" in fl or ".avi" in fl or ".x-matroska" in fl or ".mov" in fl or ".m4v" in fl or ".ts" in fl or ".m2ts" in fl: 
             return True
+            
     return False
 def getDirSizeAndFiles(path):
 
