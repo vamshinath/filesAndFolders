@@ -58,8 +58,10 @@ def scanFiles(path):
             dirs[fl]=getDirSizeAndFiles(fl)
         else:
             if checkFile(fl) :
-                outfiles[fl]=os.stat(fl).st_size
-
+                try:
+                    outfiles[fl]=os.stat(fl).st_size
+                except Exception as e:
+                    k=0
 
 
     sortedDirs = sorted(dirs.items(),key=lambda x:x[1][0],reverse=True)
