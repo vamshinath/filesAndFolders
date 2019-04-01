@@ -6,7 +6,7 @@ from moviepy.editor import VideoFileClip
 mode=''
 names=[]
 prename=''
-
+filesOrder=''
 def scanFiles(keyword):
 
     imgFiles = []
@@ -109,13 +109,20 @@ def delay(img):
 
 
 def imgFilterHelper(files):
+
+
     
     fls = {}
     for fl in files:
         try:
             tmp = Image.open(fl).size
-            sz = tmp[0]
+            if filesOrder == 'q':
+                sz = tmp[0]
+            else:
+                statbuf = os.stat(fl)
+                sz=statbuf.st_mtime
             fls[fl]=sz
+            
         except Exception as e:
             fls[fl]=0
 
@@ -224,8 +231,13 @@ def vidFilterHelper(files):
 
     for fl in files:
         try:
-            clip = VideoFileClip(fl)
-            fls[fl]=round(os.stat(fl).st_size/clip.duration,3)
+            if filesOrder == 'q':
+                clip = VideoFileClip(fl)
+                sz=round(os.stat(fl).st_size/clip.duration,3)
+            else:
+                statbuf = os.stat(fl)
+                sz=statbuf.st_mtime
+            fls[fl]=sz
             #fls[fl]=os.stat(fl).st_size
         except Exception as e:
             k=0
@@ -354,6 +366,8 @@ def filter(files):
 
 def main():
 
+    global filesOrder
+    filesOrder = input("files order Qual/time(q/t):")
     global names
     global prename
     global includeopt
